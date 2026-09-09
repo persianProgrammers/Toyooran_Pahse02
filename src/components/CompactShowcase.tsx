@@ -165,77 +165,38 @@ export const CompactShowcase: React.FC<CompactShowcaseProps> = ({
             </button>
           </div>
 
-          {/* Bento Grid */}
-          <div className="grid grid-cols-2 grid-rows-2 gap-3 sm:gap-4 flex-1 min-h-[300px]">
-            {/* Tall Featured Article */}
-            {featuredArticles[0] && (
+          {/* Vertical Articles List */}
+          <div className="flex flex-col gap-3 sm:gap-4 flex-1">
+            {featuredArticles.slice(0, 3).map((article, idx) => (
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                key={article.id}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                onClick={() => onSelectArticle(featuredArticles[0].id)}
-                className="col-span-1 row-span-2 relative rounded-[2rem] overflow-hidden group cursor-pointer shadow-md hover:shadow-xl hover:shadow-slate-200/50 border border-slate-100/50 transition-all duration-500"
+                transition={{ delay: idx * 0.1 }}
+                onClick={() => onSelectArticle(article.id)}
+                className="flex items-center gap-4 bg-white rounded-[1.5rem] p-3 sm:p-4 cursor-pointer shadow-sm hover:shadow-lg hover:shadow-slate-200/50 border border-slate-100 transition-all duration-300 group"
               >
-                <LazyImage src={featuredArticles[0].image} alt={featuredArticles[0].title} className="absolute inset-0 w-full h-full" imgClassName="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out" />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/30 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="absolute inset-0 p-4 sm:p-5 flex flex-col justify-between">
-                  <div className="flex justify-end">
-                    <span className="backdrop-blur-md bg-white/20 border border-white/20 text-white text-[9px] sm:text-[10px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1 shadow-sm">
-                      <Clock className="w-3 h-3" />
-                      {featuredArticles[0].readTime}
-                    </span>
-                  </div>
-                  <div>
-                    <span className="text-[10px] font-black text-amber-400 mb-2 block drop-shadow-md">{featuredArticles[0].categoryLabel}</span>
-                    <h4 className="text-white font-bold text-sm sm:text-base leading-relaxed line-clamp-3 group-hover:-translate-y-1 transition-transform duration-500 drop-shadow-lg">
-                      {featuredArticles[0].title}
-                    </h4>
-                  </div>
+                {/* Square Image */}
+                <div className="w-20 h-20 sm:w-24 sm:h-24 shrink-0 rounded-xl overflow-hidden relative shadow-sm">
+                  <LazyImage src={article.image} alt={article.title} className="w-full h-full" imgClassName="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                 </div>
-              </motion.div>
-            )}
-
-            {/* Square Article 1 */}
-            {featuredArticles[1] && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.1 }}
-                onClick={() => onSelectArticle(featuredArticles[1].id)}
-                className="col-span-1 row-span-1 relative rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden group cursor-pointer shadow-sm hover:shadow-lg hover:shadow-slate-200/50 border border-slate-100/50 transition-all duration-500"
-              >
-                <LazyImage src={featuredArticles[1].image} alt={featuredArticles[1].title} className="absolute inset-0 w-full h-full" imgClassName="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out" />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="absolute inset-0 p-3 sm:p-4 flex flex-col justify-end">
-                  <span className="text-[9px] font-black text-amber-400 mb-1.5 block line-clamp-1 drop-shadow-md">{featuredArticles[1].categoryLabel}</span>
-                  <h4 className="text-white font-bold text-xs sm:text-[13px] leading-snug line-clamp-2 group-hover:-translate-y-0.5 transition-transform duration-500 drop-shadow-lg">
-                    {featuredArticles[1].title}
+                
+                {/* Content */}
+                <div className="flex-1 min-w-0">
+                  <span className="text-[10px] sm:text-xs font-black text-amber-500 mb-1 sm:mb-1.5 block">
+                    {article.categoryLabel}
+                  </span>
+                  <h4 className="text-slate-800 font-bold text-sm sm:text-[15px] leading-snug line-clamp-2 group-hover:text-amber-500 transition-colors">
+                    {article.title}
                   </h4>
+                  <div className="flex items-center gap-2 mt-2 sm:mt-2.5 text-[10px] sm:text-xs text-slate-400 font-medium">
+                    <Clock className="w-3.5 h-3.5" />
+                    {article.readTime}
+                  </div>
                 </div>
               </motion.div>
-            )}
-
-            {/* Square Article 2 */}
-            {featuredArticles[2] && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2 }}
-                onClick={() => onSelectArticle(featuredArticles[2].id)}
-                className="col-span-1 row-span-1 relative rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden group cursor-pointer shadow-sm hover:shadow-lg hover:shadow-slate-200/50 border border-slate-100/50 transition-all duration-500"
-              >
-                <LazyImage src={featuredArticles[2].image} alt={featuredArticles[2].title} className="absolute inset-0 w-full h-full" imgClassName="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out" />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="absolute inset-0 p-3 sm:p-4 flex flex-col justify-end">
-                  <span className="text-[9px] font-black text-amber-400 mb-1.5 block line-clamp-1 drop-shadow-md">{featuredArticles[2].categoryLabel}</span>
-                  <h4 className="text-white font-bold text-xs sm:text-[13px] leading-snug line-clamp-2 group-hover:-translate-y-0.5 transition-transform duration-500 drop-shadow-lg">
-                    {featuredArticles[2].title}
-                  </h4>
-                </div>
-              </motion.div>
-            )}
+            ))}
           </div>
         </div>
       </div>
